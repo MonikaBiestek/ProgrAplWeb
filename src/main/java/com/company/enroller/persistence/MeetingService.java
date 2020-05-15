@@ -83,23 +83,3 @@ public class MeetingService {
 	
 }
 
-
-
-
-
-
-
-/*
- * @Component("participantService") 
- * public class ParticipantService { 
- * Session session; 
- * public ParticipantService() { 
- * session = DatabaseConnector.getInstance().getSession(); }
- * 
- * public Collection<Participant> getAll() { 
- * return session.createCriteria(Participant.class).list(); }
- * 
- * public Participant findByLogin(String login) { 
- * return (Participant) 
- * session.get(Participant.class, login); }
- */

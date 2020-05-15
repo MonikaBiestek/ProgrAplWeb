@@ -72,11 +72,9 @@ public class MeetingRestController {
 	Meeting meeting = meetingService.findById(id);
 
 	Collection<Participant> foundParticipants=meeting.getParticipants();
-	for(Participant p: foundParticipants) {
-		  //System.out.println("value= " + p);
-	
+	for(Participant p: foundParticipants) {	
 	if (p.getLogin().equals(participant.getLogin())) {
-		return new ResponseEntity("Unable to add a participant with login " + participant.getLogin() + " already registered to this meeting.", HttpStatus.CONFLICT);
+		return new ResponseEntity("Unable to add. A participant with login " + participant.getLogin() + " already registered to this meeting.", HttpStatus.CONFLICT);
 	}}
 	meetingService.addParticipant(participant, meeting);
 	return new ResponseEntity<Participant>(participant, HttpStatus.CREATED);
@@ -92,7 +90,7 @@ public class MeetingRestController {
 	return new ResponseEntity("Meeting doesn't exist.",HttpStatus.NOT_FOUND);
 	} 
 	meetingService.delete(meeting);
-	return new ResponseEntity<Meeting>(meeting, HttpStatus.OK); 
+	return new ResponseEntity<>(HttpStatus.NO_CONTENT); 
 	}
 	
 	
@@ -100,9 +98,8 @@ public class MeetingRestController {
 	public ResponseEntity<?> updateMeeting(@PathVariable("id") long id, @RequestBody Meeting meeting) {
 		Meeting foundMeeting=meetingService.findById(meeting.getId());
 	if(foundMeeting ==null) {
-		return new ResponseEntity("Unable to update. A meeting with id " + meeting.getId() + " doesn't exist.", HttpStatus.NO_CONTENT);
+		return new ResponseEntity("Unable to update. A meeting with id " + meeting.getId() + " doesn't exist.", HttpStatus.NOT_FOUND);
 	}
-
 	meetingService.updateDate(foundMeeting, meeting.getDate());
 	meetingService.updateDescription(foundMeeting, meeting.getDescription());
 	meetingService.updateTitle(foundMeeting, meeting.getTitle());
@@ -117,7 +114,7 @@ public class MeetingRestController {
 	    for(Participant p: participants) {
 	    if ((p.getLogin()).equals(login)) {	    			    	
 		meetingService.removeParticipant(p, meeting);
-		return new ResponseEntity<Collection<Participant>>(meeting.getParticipants(), HttpStatus.OK);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    	}}
 	    return new ResponseEntity<Meeting>(HttpStatus.NOT_FOUND);
 	}
